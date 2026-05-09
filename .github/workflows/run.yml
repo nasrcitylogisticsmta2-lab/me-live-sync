@@ -1,12 +1,12 @@
-name: Live Sync
+name: Live Sync Automation
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: '*/5 * * * *' # يشتغل كل 5 دقائق
+    - cron: '*/5 * * * *'
 
 jobs:
-  run-sync:
+  run-sync-job:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
