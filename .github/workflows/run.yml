@@ -1,16 +1,27 @@
 name: Live Sync
 
 on:
-  schedule:
-    - cron: "*/5 * * * *"
   workflow_dispatch:
+  schedule:
+    - cron: '*/5 * * * *' # يشتغل كل 5 دقائق
 
 jobs:
-  run:
+  run-sync:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Call API
-        run: |
-          curl -H "Authorization: Bearer ${{ secrets.TOKEN }}" \
-          "https://eg.me.logisticsbackoffice.com/api/kiwi/v1/couriers/attendance/city/1?page=0&search_worker_name=&size=10&sort_by=break_time&sort_direction=desc"
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: pip install requests gspread oauth2client
+
+      - name: Run Sync Script
+        env:
+          GOOGLE_CREDS: ${{ secrets.GOOGLE_CREDS }}
+          API_TOKEN: ${{ secrets.TOKEN }}
+        run: python sync.py
