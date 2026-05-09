@@ -1,24 +1,24 @@
-name: Final Sync Action
+name: Ultimate Sync Fix
 
 on:
   workflow_dispatch:
 
 jobs:
-  sync-process:
+  sync_job:
     runs-on: ubuntu-latest
     steps:
-      - name: 1. Fetch Code
+      - name: STEP_1_CHECKOUT
         uses: actions/checkout@v3
 
-      - name: 2. Install Python
+      - name: STEP_2_PYTHON
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
 
-      - name: 3. Install Requirements
+      - name: STEP_3_LIBS
         run: pip install requests gspread oauth2client
 
-      - name: 4. Execute Sync Script
+      - name: STEP_4_RUN_SYNC
         env:
           GOOGLE_CREDS: ${{ secrets.GOOGLE_CREDS }}
           API_TOKEN: ${{ secrets.TOKEN }}
