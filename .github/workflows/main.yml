@@ -1,25 +1,25 @@
-name: Python Sync
+name: Final Sync Action
 
 on:
-  schedule:
-    - cron: '0 4 * * *'
   workflow_dispatch:
 
 jobs:
-  run-script:
+  sync-process:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: 1. Fetch Code
+        uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: 2. Install Python
+        uses: actions/setup-python@v4
         with:
-          python-version: 3.11
+          python-version: '3.9'
 
-      - name: Install requirements
-        run: pip install requests beautifulsoup4 gspread oauth2client
+      - name: 3. Install Requirements
+        run: pip install requests gspread oauth2client
 
-      - name: Run script
-        run: python "python sync.py"
+      - name: 4. Execute Sync Script
+        env:
+          GOOGLE_CREDS: ${{ secrets.GOOGLE_CREDS }}
+          API_TOKEN: ${{ secrets.TOKEN }}
+        run: python sync.py
