@@ -1,0 +1,25 @@
+name: Python Sync
+
+on:
+  schedule:
+    - cron: '0 4 * * *'
+  workflow_dispatch:
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
+
+      - name: Install requirements
+        run: pip install requests beautifulsoup4 gspread oauth2client
+
+      - name: Run script
+        run: python "python sync.py"
